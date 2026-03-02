@@ -476,6 +476,22 @@ p {
   box-shadow: 0 14px 32px rgba(15, 31, 87, 0.07);
 }
 
+.metric-link {
+  display: block;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.metric-link:hover {
+  transform: translateY(-2px);
+  border-color: rgba(44, 181, 227, 0.6);
+  box-shadow: 0 16px 34px rgba(15, 31, 87, 0.12);
+}
+
+.metric-link:focus-visible {
+  outline: 2px solid rgba(44, 181, 227, 0.9);
+  outline-offset: 2px;
+}
+
 .metric strong {
   display: block;
   font-size: clamp(2.4rem, 5.4vw, 4.4rem);
@@ -550,6 +566,7 @@ p {
 }
 
 .visual {
+  display: block;
   min-height: 0;
   aspect-ratio: 16 / 10;
   border: 1px solid rgba(151, 170, 210, 0.36);
@@ -681,6 +698,14 @@ p {
 .image-grid .visual {
   min-height: 0;
   aspect-ratio: 16 / 10;
+}
+
+.section-kpi {
+  padding-bottom: 34px;
+}
+
+.section-kpi-images {
+  padding-top: 26px;
 }
 
 .signal {
