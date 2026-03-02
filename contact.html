@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact | AURMAK</title>
+    <meta
+      name="description"
+      content="Contact AURMAK offices in the UK, UAE, and Pakistan."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="page page-contact">
+    <header class="site-header">
+      <div class="container topbar">
+        <a class="brand" href="index.html" aria-label="AURMAK Home">
+          <img src="assets/aurmak-logo-primary.png" alt="AURMAK Logo" />
+        </a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">
+          <span class="nav-toggle-label">Menu</span>
+          <span class="nav-toggle-icon" aria-hidden="true"></span>
+        </button>
+        <nav class="nav" id="primary-nav" aria-label="Primary">
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="services.html">Services</a>
+          <a href="lab.html">The Lab</a>
+          <a href="solutions.html">Solutions</a>
+          <a href="team.html">Team</a>
+          <a class="active" href="contact.html">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container grid-12">
+          <div class="span-8">
+            <p class="eyebrow">Contact</p>
+            <h1>Discuss Your Operational Modernising Priorities.</h1>
+            <p class="lead">
+              Our teams in the UK, UAE, and Pakistan can support strategy,
+              implementation planning, and engineering delivery.
+            </p>
+          </div>
+          <div class="span-4">
+            <div class="visual">
+              <img
+                src="https://images.unsplash.com/photo-1535378620166-273708d44e4c?auto=format&fit=crop&w=1400&q=80"
+                alt="Global communications and AI systems control interface"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-tight surface">
+        <div class="container grid-12">
+          <article class="span-4 frame">
+            <h3>United Kingdom</h3>
+            <p>
+              124 City Road, London, EC1V 2NX.
+            </p>
+          </article>
+          <article class="span-4 frame">
+            <h3>United Arab Emirates</h3>
+            <p>
+              BLA-507, Block A, Ajman Main Boulevard.
+            </p>
+          </article>
+          <article class="span-4 frame">
+            <h3>Pakistan</h3>
+            <p>
+              306 Tipu Block, Bahria Town, Lahore.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section section-dark">
+        <div class="container grid-12">
+          <div class="span-6">
+            <h2>Contact Us</h2>
+            <p>
+              Share your requirements and our team will respond promptly with the
+              appropriate regional lead.
+            </p>
+            <form id="contactForm" class="contact-form" novalidate>
+              <div class="form-grid">
+                <label class="form-field">
+                  <span>Full Name</span>
+                  <input type="text" name="name" required autocomplete="name" />
+                </label>
+                <label class="form-field">
+                  <span>Work Email</span>
+                  <input
+                    type="email"
+                    name="email"
+                    required
+                    autocomplete="email"
+                  />
+                </label>
+                <label class="form-field">
+                  <span>Company / Organisation</span>
+                  <input
+                    type="text"
+                    name="company"
+                    required
+                    autocomplete="organization"
+                  />
+                </label>
+                <label class="form-field span-2">
+                  <span>Service Interest</span>
+                  <select name="service" required>
+                    <option value="">Select service</option>
+                    <option>SaaS Product Development</option>
+                    <option>Legacy System Modernisation</option>
+                    <option>AI Integration</option>
+                    <option>Building Management Systems</option>
+                    <option>General Enquiry</option>
+                  </select>
+                </label>
+                <label class="form-field span-2">
+                  <span>Project Brief</span>
+                  <textarea
+                    name="message"
+                    rows="5"
+                    required
+                    placeholder="Provide a short summary of your requirement."
+                  ></textarea>
+                </label>
+                <input
+                  type="text"
+                  name="website"
+                  tabindex="-1"
+                  autocomplete="off"
+                  class="hp-field"
+                  aria-hidden="true"
+                />
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="button button-primary" id="submitBtn">
+                  Send Enquiry
+                </button>
+                <p id="formStatus" class="form-status" role="status" aria-live="polite"></p>
+              </div>
+            </form>
+          </div>
+          <div class="span-6">
+            <div class="visual">
+              <img
+                src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1400&q=80"
+                alt="Connected digital network architecture for cross-regional operations"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-row">
+        <span>AURMAK Hybrid Venture Studio</span>
+        <span>London | Dubai | Lahore</span>
+      </div>
+    </footer>
+    <script src="nav.js"></script>
+    <script src="contact-form.js"></script>
+  </body>
+</html>
