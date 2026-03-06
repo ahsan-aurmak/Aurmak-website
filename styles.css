@@ -252,6 +252,15 @@ a {
   --hero-image-glow: rgba(85, 228, 219, 0.36);
 }
 
+.page-services .hero h1,
+.page-solutions .hero h1,
+.page-team .hero h1,
+.page-lab .hero h1,
+.page-career .hero h1 {
+  max-width: none;
+  white-space: nowrap;
+}
+
 .container {
   width: min(var(--max-width), calc(100% - 52px));
   margin: 0 auto;
@@ -571,8 +580,18 @@ p {
   font-weight: 700;
 }
 
+.hero-home-modern .home-hero-content {
+  max-width: 980px;
+  margin: 0;
+  text-align: left;
+}
+
 .hero-home-modern h1 {
-  max-width: 10.5ch;
+  max-width: 16ch;
+}
+
+.hero-home-modern .lead {
+  max-width: 66ch;
 }
 
 .hero-proof-row {
@@ -580,6 +599,10 @@ p {
   flex-wrap: wrap;
   gap: 10px;
   margin-top: 16px;
+}
+
+.hero-home-modern .hero-proof-row {
+  justify-content: flex-start;
 }
 
 .hero-proof-row span {
@@ -594,40 +617,6 @@ p {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   font-weight: 700;
-}
-
-.visual-home-main {
-  box-shadow: 0 20px 42px rgba(6, 19, 55, 0.38);
-}
-
-.home-mini-grid {
-  margin-top: 12px;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.home-mini-card {
-  border: 1px solid rgba(166, 200, 255, 0.34);
-  border-radius: 14px;
-  background: linear-gradient(180deg, rgba(9, 29, 78, 0.7) 0%, rgba(8, 21, 59, 0.78) 100%);
-  box-shadow: 0 16px 32px rgba(6, 19, 55, 0.25);
-  padding: 14px;
-}
-
-.home-mini-card strong {
-  display: block;
-  color: #ffffff;
-  font-size: 1.46rem;
-  letter-spacing: -0.03em;
-  margin-bottom: 6px;
-}
-
-.home-mini-card span {
-  display: block;
-  color: rgba(222, 234, 255, 0.88);
-  font-size: 0.8rem;
-  line-height: 1.45;
 }
 
 .section-home-signals {
@@ -908,6 +897,10 @@ p {
   flex-wrap: wrap;
   gap: 12px;
   margin-top: 24px;
+}
+
+.hero-home-modern .cta-row {
+  justify-content: flex-start;
 }
 
 .button {
@@ -2122,6 +2115,14 @@ body.rtl .footer-social {
     max-width: none;
   }
 
+  .page-services .hero h1,
+  .page-solutions .hero h1,
+  .page-team .hero h1,
+  .page-lab .hero h1,
+  .page-career .hero h1 {
+    white-space: normal;
+  }
+
   .hero-kicker {
     font-size: 0.74rem;
   }
@@ -2133,10 +2134,6 @@ body.rtl .footer-social {
   .hero-proof-row span {
     font-size: 0.68rem;
     padding: 6px 9px;
-  }
-
-  .home-mini-grid {
-    grid-template-columns: 1fr;
   }
 
   .home-signal-grid {
