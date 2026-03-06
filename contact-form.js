@@ -4,7 +4,7 @@
 
   const submitBtn = document.getElementById("submitBtn");
   const statusEl = document.getElementById("formStatus");
-  const originalBtnLabel = submitBtn ? submitBtn.textContent : "Send Enquiry";
+  const originalBtnLabel = submitBtn ? submitBtn.textContent : "Submit Enquiry";
 
   function setStatus(message, type = "") {
     if (!statusEl) return;
@@ -25,9 +25,9 @@
 
     if (submitBtn) {
       submitBtn.disabled = true;
-      submitBtn.textContent = "Sending...";
+      submitBtn.textContent = "Submitting...";
     }
-    setStatus("Sending your enquiry...");
+    setStatus("Submitting your enquiry...");
 
     try {
       const response = await fetch("/api/contact", {
@@ -44,16 +44,9 @@
       }
 
       form.reset();
-      setStatus(
-        "Thank you. Your enquiry has been sent successfully. Our team will contact you shortly.",
-        "is-success"
-      );
+      setStatus("Enquiry submitted successfully. Our team will contact you shortly.", "is-success");
     } catch (error) {
-      setStatus(
-        error.message ||
-          "Something went wrong while sending your enquiry. Please try again.",
-        "is-error"
-      );
+      setStatus(error.message || "Unable to submit enquiry. Please try again shortly.", "is-error");
     } finally {
       if (submitBtn) {
         submitBtn.disabled = false;

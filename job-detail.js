@@ -71,9 +71,9 @@
   const fallbackSlug = "senior-ai-product-engineer";
   const url = new URL(window.location.href);
   const requestedSlug = (url.searchParams.get("job") || "").trim();
-  const slug = Object.prototype.hasOwnProperty.call(jobs, requestedSlug)
-    ? requestedSlug
-    : fallbackSlug;
+  const hasRequestedJob = Object.prototype.hasOwnProperty.call(jobs, requestedSlug);
+  const slug = requestedSlug ? requestedSlug : fallbackSlug;
+  const isInvalidRequestedJob = Boolean(requestedSlug && !hasRequestedJob);
   const job = jobs[slug];
 
   const byId = (id) => document.getElementById(id);
@@ -94,6 +94,36 @@
     });
   };
 
+  const titleInput = byId("jobTitleInput");
+  const codeInput = byId("jobCodeInput");
+  const returnUrlInput = byId("returnUrlInput");
+  if (returnUrlInput) {
+    returnUrlInput.value = `${window.location.pathname}${window.location.search}`;
+  }
+
+  if (isInvalidRequestedJob) {
+    setText("jobTitleHeading", "Role Not Found");
+    setText("jobLead", "This job link is invalid or the role is no longer available.");
+    setText("jobCode", "-");
+    setText("jobLocation", "-");
+    setText("jobType", "-");
+    setText("jobExperience", "-");
+    setText("jobSummary", "Please return to the careers page and select an available role.");
+    setText("jobApplyRole", "This role is currently unavailable.");
+    setList("jobResponsibilities", []);
+    setList("jobRequirements", []);
+
+    const invalidForm = byId("applicationForm");
+    if (invalidForm) {
+      invalidForm.querySelectorAll("input, textarea, select, button").forEach((field) => {
+        if (field.name !== "website") field.disabled = true;
+      });
+    }
+
+    document.title = "Role Not Found | AURMAK Careers";
+    return;
+  }
+
   setText("jobTitleHeading", job.title);
   setText("jobLead", job.lead);
   setText("jobCode", job.code);
@@ -101,12 +131,10 @@
   setText("jobType", job.workModel);
   setText("jobExperience", job.experience);
   setText("jobSummary", job.summary);
-  setText("jobApplyRole", `Applying for: ${job.title}`);
+  setText("jobApplyRole", `Application for: ${job.title}`);
   setList("jobResponsibilities", job.responsibilities);
   setList("jobRequirements", job.requirements);
 
-  const titleInput = byId("jobTitleInput");
-  const codeInput = byId("jobCodeInput");
   if (titleInput) titleInput.value = job.title;
   if (codeInput) codeInput.value = job.code;
 

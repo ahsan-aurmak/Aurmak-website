@@ -57,6 +57,154 @@ function toBoolean(value) {
   return String(value).toLowerCase() === "true";
 }
 
+function wantsHtmlResponse(req) {
+  const accept = String(req.headers.accept || "");
+  return accept.includes("text/html");
+}
+
+function normaliseReturnPath(value, fallback) {
+  const input = clean(value);
+  if (!input) return fallback;
+  if (input.startsWith("http://") || input.startsWith("https://")) {
+    return fallback;
+  }
+  if (input.startsWith("//")) {
+    return fallback;
+  }
+  if (input.startsWith("/")) {
+    return input;
+  }
+  if (/^[a-z0-9\-./_]+(?:\?[a-z0-9\-._~=&%+]*)?$/i.test(input)) {
+    return `/${input.replace(/^\/+/, "")}`;
+  }
+  return fallback;
+}
+
+function renderFormResponsePage({ title, message, isSuccess, backHref, backLabel }) {
+  const safeTitle = escapeHtml(title);
+  const safeMessage = escapeHtml(message);
+  const safeBackHref = escapeHtml(backHref);
+  const safeBackLabel = escapeHtml(backLabel);
+  const borderColor = isSuccess ? "#7ad6a1" : "#f2a2a2";
+  const badgeBg = isSuccess ? "rgba(50, 168, 106, 0.16)" : "rgba(193, 52, 52, 0.14)";
+  const badgeColor = isSuccess ? "#1e824f" : "#a23030";
+  const badgeText = isSuccess ? "Submitted" : "Submission Issue";
+
+  return `<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>${safeTitle} | AURMAK</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 32px 14px;
+        font-family: Inter, "Segoe UI", Arial, sans-serif;
+        color: #1b2a6b;
+        background: linear-gradient(180deg, #edf3fb 0%, #f7faff 100%);
+      }
+      .wrap {
+        max-width: 680px;
+        margin: 0 auto;
+        border: 1px solid rgba(27, 42, 107, 0.14);
+        border-radius: 16px;
+        background: #ffffff;
+        box-shadow: 0 20px 38px rgba(15, 31, 87, 0.08);
+        overflow: hidden;
+      }
+      .head {
+        padding: 18px 22px;
+        background: linear-gradient(130deg, #1b2a6b 0%, #0f1f57 100%);
+      }
+      .head img {
+        width: 200px;
+        max-width: 100%;
+        height: auto;
+        display: block;
+      }
+      .content {
+        padding: 22px;
+      }
+      .badge {
+        display: inline-block;
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        background: ${badgeBg};
+        color: ${badgeColor};
+        border: 1px solid ${borderColor};
+        margin-bottom: 12px;
+      }
+      h1 {
+        margin: 0 0 10px;
+        font-size: 30px;
+        line-height: 1.12;
+      }
+      p {
+        margin: 0 0 16px;
+        color: #4a5568;
+        line-height: 1.6;
+      }
+      a {
+        display: inline-block;
+        margin-top: 4px;
+        padding: 10px 14px;
+        border-radius: 8px;
+        border: 1px solid #1b2a6b;
+        color: #1b2a6b;
+        text-decoration: none;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <header class="head">
+        <img src="https://aurmak.com/assets/aurmak-logo-primary.png" alt="AURMAK Logo" />
+      </header>
+      <section class="content">
+        <span class="badge">${badgeText}</span>
+        <h1>${safeTitle}</h1>
+        <p>${safeMessage}</p>
+        <a href="${safeBackHref}">${safeBackLabel}</a>
+      </section>
+    </main>
+  </body>
+</html>`;
+}
+
+function sendClientResponse(req, res, options) {
+  const {
+    ok = false,
+    status = 200,
+    title = ok ? "Submission Complete" : "Unable to Submit",
+    message,
+    backHref = "/",
+    backLabel = "Back",
+  } = options;
+
+  if (wantsHtmlResponse(req)) {
+    return res.status(status).send(
+      renderFormResponsePage({
+        title,
+        message,
+        isSuccess: ok,
+        backHref,
+        backLabel,
+      })
+    );
+  }
+
+  return res.status(status).json({ ok, message });
+}
+
 function getTransporter() {
   const host = process.env.SMTP_HOST;
   const port = Number(process.env.SMTP_PORT || 587);
@@ -127,7 +275,7 @@ function renderEmailHtml(data) {
                     <td style="padding:10px 12px;border:1px solid #d7e0ef;">${safe.company}</td>
                   </tr>
                   <tr>
-                    <td style="padding:10px 12px;border:1px solid #d7e0ef;background:#f8fbff;font-weight:700;">Service Interest</td>
+                    <td style="padding:10px 12px;border:1px solid #d7e0ef;background:#f8fbff;font-weight:700;">Service Requirement</td>
                     <td style="padding:10px 12px;border:1px solid #d7e0ef;">${safe.service}</td>
                   </tr>
                   <tr>
@@ -156,7 +304,7 @@ function renderEmailText(data) {
     `Full Name: ${data.name}`,
     `Work Email: ${data.email}`,
     `Company / Organisation: ${data.company}`,
-    `Service Interest: ${data.service}`,
+    `Service Requirement: ${data.service}`,
     "",
     "Project Brief:",
     data.message,
@@ -234,7 +382,7 @@ function renderApplicationEmailHtml(data, cvMeta) {
                     <td style="padding:10px 12px;border:1px solid #d7e0ef;">${escapeHtml(cvMeta)}</td>
                   </tr>
                   <tr>
-                    <td style="padding:10px 12px;border:1px solid #d7e0ef;background:#f8fbff;font-weight:700;vertical-align:top;">Cover Letter</td>
+                    <td style="padding:10px 12px;border:1px solid #d7e0ef;background:#f8fbff;font-weight:700;vertical-align:top;">Application Note</td>
                     <td style="padding:10px 12px;border:1px solid #d7e0ef;white-space:pre-line;">${safe.coverLetter}</td>
                   </tr>
                 </table>
@@ -265,7 +413,7 @@ function renderApplicationEmailText(data, cvMeta) {
     `Portfolio / LinkedIn: ${data.portfolio || "Not provided"}`,
     `CV Attachment: ${cvMeta}`,
     "",
-    "Cover Letter:",
+    "Application Note:",
     data.coverLetter || "Not provided",
   ].join("\n");
 }
@@ -278,11 +426,20 @@ app.post("/api/contact", async (req, res) => {
     service: clean(req.body.service),
     message: clean(req.body.message),
     website: clean(req.body.website),
+    returnUrl: clean(req.body.returnUrl),
   };
+  const backHref = normaliseReturnPath(payload.returnUrl, "/contact.html");
 
   // Honeypot for basic bot spam.
   if (payload.website) {
-    return res.json({ ok: true, message: "Enquiry submitted." });
+    return sendClientResponse(req, res, {
+      ok: true,
+      status: 200,
+      title: "Enquiry Received",
+      message: "Enquiry submitted.",
+      backHref,
+      backLabel: "Back to Contact",
+    });
   }
 
   if (
@@ -292,26 +449,49 @@ app.post("/api/contact", async (req, res) => {
     !payload.service ||
     !payload.message
   ) {
-    return res.status(400).json({ message: "Please complete all required fields." });
+    return sendClientResponse(req, res, {
+      ok: false,
+      status: 400,
+      title: "Enquiry Incomplete",
+      message: "Please complete all required fields.",
+      backHref,
+      backLabel: "Back to Contact",
+    });
   }
 
   if (!isValidEmail(payload.email)) {
-    return res.status(400).json({ message: "Please enter a valid email address." });
+    return sendClientResponse(req, res, {
+      ok: false,
+      status: 400,
+      title: "Invalid Email Address",
+      message: "Please enter a valid email address.",
+      backHref,
+      backLabel: "Back to Contact",
+    });
   }
 
   const transporter = getTransporter();
   if (!transporter) {
-    return res.status(500).json({
-      message:
-        "Email service is not configured. Please set SMTP_HOST, SMTP_USER and SMTP_PASS.",
+    return sendClientResponse(req, res, {
+      ok: false,
+      status: 500,
+      title: "Service Configuration Required",
+      message: "Email service is not configured. Please set SMTP_HOST, SMTP_USER and SMTP_PASS.",
+      backHref,
+      backLabel: "Back to Contact",
     });
   }
 
   const toAddress = process.env.CONTACT_TO || "info@aurmak.com";
   const fromAddress = process.env.CONTACT_FROM || process.env.SMTP_USER;
   if (!fromAddress) {
-    return res.status(500).json({
+    return sendClientResponse(req, res, {
+      ok: false,
+      status: 500,
+      title: "Service Configuration Required",
       message: "Sender address is not configured. Please set CONTACT_FROM.",
+      backHref,
+      backLabel: "Back to Contact",
     });
   }
 
@@ -325,29 +505,49 @@ app.post("/api/contact", async (req, res) => {
       text: renderEmailText(payload),
     });
 
-    return res.json({
+    return sendClientResponse(req, res, {
       ok: true,
-      message:
-        "Thank you. Your enquiry has been sent successfully. Our team will contact you shortly.",
+      status: 200,
+      title: "Enquiry Submitted",
+      message: "Enquiry submitted successfully. Our team will contact you shortly.",
+      backHref,
+      backLabel: "Back to Contact",
     });
   } catch (error) {
     console.error("Email send error:", error);
-    return res.status(500).json({
-      message: "Unable to send your enquiry at the moment. Please try again shortly.",
+    return sendClientResponse(req, res, {
+      ok: false,
+      status: 500,
+      title: "Unable to Submit Enquiry",
+      message: "Unable to submit enquiry at the moment. Please try again shortly.",
+      backHref,
+      backLabel: "Back to Contact",
     });
   }
 });
 
 app.post("/api/apply", (req, res) => {
   uploadCv.single("cv")(req, res, async (uploadError) => {
+    const backHref = normaliseReturnPath((req.body && req.body.returnUrl) || "", "/career.html");
+
     if (uploadError) {
       if (uploadError instanceof multer.MulterError && uploadError.code === "LIMIT_FILE_SIZE") {
-        return res
-          .status(400)
-          .json({ message: "CV file size must be 5MB or less." });
+        return sendClientResponse(req, res, {
+          ok: false,
+          status: 400,
+          title: "CV File Too Large",
+          message: "CV file size must be 5MB or less.",
+          backHref,
+          backLabel: "Back to Careers",
+        });
       }
-      return res.status(400).json({
+      return sendClientResponse(req, res, {
+        ok: false,
+        status: 400,
+        title: "CV Upload Issue",
         message: uploadError.message || "Unable to process uploaded CV file.",
+        backHref,
+        backLabel: "Back to Careers",
       });
     }
 
@@ -361,39 +561,76 @@ app.post("/api/apply", (req, res) => {
       jobCode: clean(req.body.jobCode),
       jobTitle: clean(req.body.jobTitle),
       website: clean(req.body.website),
+      returnUrl: clean(req.body.returnUrl),
     };
+    const responseBackHref = normaliseReturnPath(payload.returnUrl, backHref);
 
     if (payload.website) {
-      return res.json({ ok: true, message: "Application submitted." });
+      return sendClientResponse(req, res, {
+        ok: true,
+        status: 200,
+        title: "Application Received",
+        message: "Application submitted.",
+        backHref: responseBackHref,
+        backLabel: "Back to Careers",
+      });
     }
 
     if (!payload.fullName || !payload.email || !payload.phone || !payload.jobTitle) {
-      return res.status(400).json({ message: "Please complete all required fields." });
+      return sendClientResponse(req, res, {
+        ok: false,
+        status: 400,
+        title: "Application Incomplete",
+        message: "Please complete all required fields.",
+        backHref: responseBackHref,
+        backLabel: "Back to Careers",
+      });
     }
 
     if (!isValidEmail(payload.email)) {
-      return res.status(400).json({ message: "Please enter a valid email address." });
+      return sendClientResponse(req, res, {
+        ok: false,
+        status: 400,
+        title: "Invalid Email Address",
+        message: "Please enter a valid email address.",
+        backHref: responseBackHref,
+        backLabel: "Back to Careers",
+      });
     }
 
     if (!req.file) {
-      return res.status(400).json({
+      return sendClientResponse(req, res, {
+        ok: false,
+        status: 400,
+        title: "CV Required",
         message: "Please upload your CV in PDF or Word format.",
+        backHref: responseBackHref,
+        backLabel: "Back to Careers",
       });
     }
 
     const transporter = getTransporter();
     if (!transporter) {
-      return res.status(500).json({
-        message:
-          "Email service is not configured. Please set SMTP_HOST, SMTP_USER and SMTP_PASS.",
+      return sendClientResponse(req, res, {
+        ok: false,
+        status: 500,
+        title: "Service Configuration Required",
+        message: "Email service is not configured. Please set SMTP_HOST, SMTP_USER and SMTP_PASS.",
+        backHref: responseBackHref,
+        backLabel: "Back to Careers",
       });
     }
 
     const toAddress = process.env.APPLICATION_TO || process.env.CONTACT_TO || "info@aurmak.com";
     const fromAddress = process.env.CONTACT_FROM || process.env.SMTP_USER;
     if (!fromAddress) {
-      return res.status(500).json({
+      return sendClientResponse(req, res, {
+        ok: false,
+        status: 500,
+        title: "Service Configuration Required",
         message: "Sender address is not configured. Please set CONTACT_FROM.",
+        backHref: responseBackHref,
+        backLabel: "Back to Careers",
       });
     }
 
@@ -416,15 +653,23 @@ app.post("/api/apply", (req, res) => {
         ],
       });
 
-      return res.json({
+      return sendClientResponse(req, res, {
         ok: true,
-        message:
-          "Thank you. Your application has been submitted successfully. We will review your profile and respond shortly.",
+        status: 200,
+        title: "Application Submitted",
+        message: "Application submitted successfully. Our team will review your profile and respond shortly.",
+        backHref: responseBackHref,
+        backLabel: "Back to Careers",
       });
     } catch (error) {
       console.error("Application send error:", error);
-      return res.status(500).json({
+      return sendClientResponse(req, res, {
+        ok: false,
+        status: 500,
+        title: "Unable to Submit Application",
         message: "Unable to submit your application at the moment. Please try again shortly.",
+        backHref: responseBackHref,
+        backLabel: "Back to Careers",
       });
     }
   });

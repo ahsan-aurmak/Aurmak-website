@@ -90,6 +90,7 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body class="page page-career">
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="site-header">
       <div class="container topbar">
         <a class="brand" href="index.html" aria-label="AURMAK Home">
@@ -99,33 +100,39 @@
           <span class="nav-toggle-label">Menu</span>
           <span class="nav-toggle-icon" aria-hidden="true"></span>
         </button>
-        <nav class="nav" id="primary-nav" aria-label="Primary">
+                <nav class="nav" id="primary-nav" aria-label="Primary">
           <a href="index.html">Home</a>
-          <a href="about.html">About</a>
           <a href="services.html">Services</a>
-          <a href="lab.html">The Lab</a>
           <a href="solutions.html">Solutions</a>
+          <a href="case-studies.html">Case Studies</a>
+          <a href="insights.html">Insights</a>
+          <details class="nav-group active">
+            <summary>About</summary>
+            <div class="nav-group-menu">
+          <a href="about.html">About</a>
           <a href="team.html">Team</a>
+          <a href="lab.html">The Lab</a>
           <a class="active" href="career.html">Careers</a>
+            </div>
+          </details>
           <a href="contact.html">Contact</a>
         </nav>
       </div>
     </header>
 
-    <main>
+    <main id="main-content">
       <section class="hero">
         <div class="container grid-12">
           <div class="span-8">
             <p class="eyebrow">Careers</p>
-            <h1>Build Systems that Modernise Real Operations.</h1>
+            <h1>Careers at AURMAK.</h1>
             <p class="lead">
-              Join a delivery team focused on enterprise-grade engineering,
-              measurable outcomes, and technical quality across London, Dubai,
-              and Lahore.
+              Join a team where commercial clarity, technical discipline, and
+              accountable delivery define how work gets done.
             </p>
             <div class="cta-row">
-              <a class="button button-primary" href="#open-positions">View Open Positions</a>
-              <a class="button" href="contact.html">Speak with Our Team</a>
+              <a class="button button-primary" href="#open-positions">Browse Open Roles</a>
+              <a class="button" href="contact.html">Discuss Opportunities</a>
             </div>
           </div>
           <div class="span-4">
@@ -143,8 +150,7 @@
         <div class="container">
           <h2>Open Positions</h2>
           <p class="section-intro">
-            Current mock opportunities for demonstration. Each role includes a
-            dedicated detail page with direct application submission.
+            Current openings include a dedicated role detail page and direct application submission.
           </p>
           <div class="jobs-grid">
             <article class="job-card">
@@ -153,7 +159,7 @@
               <p>Lahore, Pakistan</p>
               <p>Hybrid, Full-time</p>
               <a class="button button-primary" href="job-detail.html?job=senior-ai-product-engineer"
-                >View Job &amp; Apply</a
+                >View Role &amp; Apply</a
               >
             </article>
             <article class="job-card">
@@ -162,7 +168,7 @@
               <p>Dubai, UAE</p>
               <p>Hybrid, Full-time</p>
               <a class="button button-primary" href="job-detail.html?job=enterprise-solutions-architect"
-                >View Job &amp; Apply</a
+                >View Role &amp; Apply</a
               >
             </article>
             <article class="job-card">
@@ -171,7 +177,7 @@
               <p>Lahore, Pakistan</p>
               <p>On-site / Hybrid, Full-time</p>
               <a class="button button-primary" href="job-detail.html?job=full-stack-product-engineer"
-                >View Job &amp; Apply</a
+                >View Role &amp; Apply</a
               >
             </article>
           </div>
@@ -183,25 +189,23 @@
           <article class="span-6 frame">
             <h2>Why Join AURMAK</h2>
             <p>
-              Work on real enterprise deployments while helping shape internal
-              products through our Venture Lab operating model.
+              Contribute to enterprise delivery while building practical product capability through our innovation model.
             </p>
             <ul class="list">
-              <li>Engineering-first culture with practical technical leadership.</li>
-              <li>Cross-regional collaboration across London, Dubai, and Lahore.</li>
-              <li>Opportunity to work on client systems and internal ventures.</li>
-              <li>Clear delivery accountability and measurable outcomes.</li>
+              <li>Disciplined engineering culture with leadership accountability.</li>
+              <li>Cross-regional collaboration across London, Dubai, and Lahore teams.</li>
+              <li>Balanced exposure to client delivery and internal product development.</li>
+              <li>Clear ownership, governance, and measurable outcomes.</li>
             </ul>
           </article>
           <article class="span-6 frame">
             <h2>Hiring Pipeline</h2>
             <p>
-              Apply through the job detail page form with CV upload. Our team
-              reviews each submission through a structured process.
+              Apply through the job detail form with CV upload. Every application is reviewed through a defined evaluation process.
             </p>
             <ul class="list">
-              <li>Select a role and submit your profile.</li>
-              <li>Include portfolio links where relevant.</li>
+              <li>Select a role and submit your application profile.</li>
+              <li>Include portfolio or project links where relevant.</li>
               <li>Applications are reviewed by engineering and operations leads.</li>
               <li>Shortlisted candidates receive a structured interview plan.</li>
             </ul>
@@ -217,12 +221,14 @@
           <p class="footer-locations">London | Dubai | Lahore</p>
         </div>
 
-        <nav class="footer-nav" aria-label="Footer navigation">
+                <nav class="footer-nav" aria-label="Footer navigation">
           <a href="index.html">Home</a>
           <a href="about.html">About</a>
           <a href="services.html">Services</a>
-          <a href="lab.html">The Lab</a>
           <a href="solutions.html">Solutions</a>
+          <a href="case-studies.html">Case Studies</a>
+          <a href="insights.html">Insights</a>
+          <a href="lab.html">The Lab</a>
           <a href="team.html">Team</a>
           <a href="career.html">Careers</a>
           <a href="contact.html">Contact</a>
@@ -236,13 +242,13 @@
 
         <div class="footer-utility" aria-label="Social and language">
                     <div class="footer-social" aria-label="Social media">
-            <a href="https://www.linkedin.com/company/aurmak" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <a href="https://www.linkedin.com/company/aurmak" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.94 8.5H3.56V20h3.38V8.5zM5.25 3A1.97 1.97 0 1 0 5.3 6.94 1.97 1.97 0 0 0 5.25 3zM20.44 13.44c0-3.42-1.83-5.01-4.26-5.01-1.96 0-2.84 1.08-3.33 1.84h-.05V8.5H9.56c.04 1.17 0 11.5 0 11.5h3.24v-6.42c0-.34.03-.67.13-.91.27-.67.88-1.36 1.9-1.36 1.34 0 1.88 1.02 1.88 2.52V20H20v-6.56h.44z"/></svg>
             </a>
-            <a href="https://x.com/aurmak" target="_blank" rel="noopener" aria-label="X">
+            <a href="https://x.com/aurmak" target="_blank" rel="noopener noreferrer" aria-label="X">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 2h3.37l-7.37 8.43L23.57 22h-6.8l-5.33-6.98L5.33 22H1.95l7.89-9.02L1.5 2h6.97l4.82 6.37L18.9 2zm-1.19 17.97h1.87L7.47 3.92H5.47l12.24 16.05z"/></svg>
             </a>
-            <a href="https://www.youtube.com/@aurmak" target="_blank" rel="noopener" aria-label="YouTube">
+            <a href="https://www.youtube.com/@aurmak" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23 12s0-3.22-.41-4.77a3.04 3.04 0 0 0-2.14-2.14C18.9 4.68 12 4.68 12 4.68s-6.9 0-8.45.41A3.04 3.04 0 0 0 1.41 7.23C1 8.78 1 12 1 12s0 3.22.41 4.77a3.04 3.04 0 0 0 2.14 2.14c1.55.41 8.45.41 8.45.41s6.9 0 8.45-.41a3.04 3.04 0 0 0 2.14-2.14C23 15.22 23 12 23 12zm-13.2 3.87V8.13L16.5 12l-6.7 3.87z"/></svg>
             </a>
           </div>

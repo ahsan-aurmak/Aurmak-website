@@ -26,6 +26,8 @@
     }
   }
 
+  restoreJobFields();
+
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
@@ -74,15 +76,9 @@
 
       form.reset();
       restoreJobFields();
-      setStatus(
-        "Thank you. Your application has been submitted successfully. We will review your profile and respond shortly.",
-        "is-success"
-      );
+      setStatus("Application submitted successfully. Our team will review your profile and respond shortly.", "is-success");
     } catch (error) {
-      setStatus(
-        error.message || "Something went wrong while submitting your application. Please try again.",
-        "is-error"
-      );
+      setStatus(error.message || "Unable to submit application. Please try again shortly.", "is-error");
     } finally {
       if (submitBtn) {
         submitBtn.disabled = false;
